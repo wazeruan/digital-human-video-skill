@@ -17,7 +17,7 @@
 
 ## Codex skill
 
-仓库内含 `skills/digital-human-video`，优先支持“按主题生成动画友好角色 → Chrome/Muse 一次提交 → 等待并下载音视频 → 本地轻量质检”的快速流程，也保留本地 pipeline。浏览器模式会把选定头像与文本发送给外部服务，不属于本地 FastAPI 流程；生成媒体、隐私、商用和导出权利受服务商条款约束。安装至本机 Codex skills 目录：
+仓库内含 `skills/digital-human-video`，优先支持“生成透明角色图 → 在 Chrome/Muse 分别生成静音透明视频与语音 → 用 FFmpeg 合并 → 检查透明通道并用于幻灯片”的流程，也保留本地 pipeline。浏览器模式会把选定头像与文本发送给外部服务，不属于本地 FastAPI 流程；生成媒体、隐私、商用和导出权利受服务商条款约束。安装至本机 Codex skills 目录：
 
 ```bash
 ./scripts/install_skill.sh
