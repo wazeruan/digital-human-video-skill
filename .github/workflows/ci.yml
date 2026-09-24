@@ -1,0 +1,74 @@
+name: checks
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: checks-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  fake-pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install Python 3.11 and uv
+        uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+        with:
+          version: 0.11.21
+
+      - name: Install FFmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes ffmpeg
+
+      - name: Install locked dependencies
+        run: |
+          uv python install 3.11
+          uv sync --frozen --python 3.11 --extra test
+
+      - name: Check release hygiene
+        run: uv run --frozen python scripts/release_audit.py
+
+      - name: Test fake pipeline
+        run: uv run --frozen pytest
+
+      - name: Check scripts and build wheel
+        run: |
+          for script in scripts/*.sh; do bash -n "$script"; done
+          uv build
+
+      - name: Package and verify Codex skill
+        run: |
+          scripts/package_skill.sh "$RUNNER_TEMP/digital-human-video.zip"
+          unzip -t "$RUNNER_TEMP/digital-human-video.zip"
+
+  macos-arm-smoke:
+    runs-on: macos-14
+    timeout-minutes: 15
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install Python 3.11 and uv
+        uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+        with:
+          version: 0.11.21
+
+      - name: Install FFmpeg
+        run: brew install ffmpeg
+
+      - name: Test on Apple Silicon runner
+        run: |
+          uv python install 3.11
+          uv sync --frozen --python 3.11 --extra test
+          uv run --frozen pytest
+          for script in scripts/*.sh; do bash -n "$script"; done

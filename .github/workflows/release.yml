@@ -1,0 +1,40 @@
+name: release preflight
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+jobs:
+  release-candidate:
+    runs-on: macos-14
+    timeout-minutes: 20
+    steps:
+      - name: Check out complete history
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Install Python 3.11 and uv
+        uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+        with:
+          version: 0.11.21
+
+      - name: Install FFmpeg
+        run: brew install ffmpeg
+
+      - name: Enforce release gates before packaging
+        run: uv run --frozen python scripts/release_audit.py --release --commercial
+
+      - name: Test and build release candidate
+        run: |
+          uv python install 3.11
+          uv sync --frozen --python 3.11 --extra test
+          uv run --frozen pytest
+          uv build
+          scripts/package_skill.sh "$RUNNER_TEMP/digital-human-video.zip"
+          unzip -t "$RUNNER_TEMP/digital-human-video.zip"

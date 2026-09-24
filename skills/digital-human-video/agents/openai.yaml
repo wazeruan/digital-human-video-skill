@@ -1,0 +1,3 @@
+interface:
+  display_name: "Digital Human Video"
+  short_description: "Build short Chinese speaking-avatar videos locally"
