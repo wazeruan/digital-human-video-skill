@@ -1,33 +1,11 @@
 # Security and privacy boundary
 
-This is a local, single-user prototype for a trusted Apple Silicon Mac. It is
-not designed for internet-facing, shared-host, or multi-tenant deployment.
+This repository packages a Codex skill that uses ImageGen and an external Muse service through the user's browser. It contains no local model server, API service, credentials, or bundled media.
 
-- The documented API entry point binds to `127.0.0.1` and uses one worker. Keep
-  it there. Do not expose port 8000 or the MuseTalk sidecar port 8001 through
-  `0.0.0.0`, a reverse proxy, a tunnel, or port forwarding.
-- The API has no user authentication or per-user access control. Other
-  processes running as the same local user can access it. Do not run it on a
-  shared/untrusted account or use it as a remotely accessible service.
-- Face images, job text, synthesized audio, intermediate renders, final MP4s,
-  and SQLite job state persist under the configured `DIGITAL_HUMAN_DATA_DIR`
-  (default `./data`). Keep this folder private and manage retention/backups
-  yourself; the current MVP does not implement TTL, quotas, or deletion APIs.
-  Newly created app directories/files use owner-only permissions where the
-  filesystem supports them. Existing operator-supplied paths are never chmod'd;
-  the service warns if they are accessible to group/others. Check permissions
-  yourself, especially on external, network, or exFAT volumes.
-- `POST /v1/avatars/generate` sends its prompt to the configured OpenAI API.
-  The upload, TTS, animation, and composition paths otherwise run locally after
-  required models are installed.
-- Only process images and driving videos you own or are authorized to use. Get
-  consent for identifiable faces and voices. Do not use the pipeline for
-  non-consensual impersonation, fraud, or deceptive claims about real people.
-- Model installers execute downloaded dependencies and load PyTorch checkpoints.
-  Use the pinned setup scripts, verify their checksums, and review the upstream
-  terms. The LivePortrait installer is explicitly limited to non-commercial
-  research because its detector weights have that restriction.
+- Only submit the image and narration selected for this run. Do not upload unrelated portraits, recordings, credentials, project files, or chat history.
+- Use only images, voices, and reference material that you own or are authorized to use. Get consent for identifiable people; do not use the workflow for deceptive impersonation, fraud, or non-consensual sexual content.
+- The Muse provider receives the content submitted in its page. Review its current privacy, retention, and commercial-use terms before use. Codex/ImageGen and browser services have their own policies and controls.
+- Keep downloaded source assets and finished media in a private local folder. Outputs are not automatically encrypted or cleaned up by this skill; manage retention and backups yourself.
+- Do not ask the agent to accept legal terms, buy credits, upgrade plans, or change browser-extension permissions without action-time authorization.
 
-If you find a security issue in a public copy of this repository, use GitHub's
-private security reporting channel when available. Do not post faces, API keys,
-model files, or exploit details in a public issue.
+If you find a security issue in this repository, use GitHub's private reporting channel when available. Do not post images, voice recordings, access tokens, or private generation links in a public issue.

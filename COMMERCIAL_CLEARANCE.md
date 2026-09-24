@@ -1,19 +1,13 @@
 Status: NOT CLEARED
 
-This record is a release gate, not legal advice or a clearance statement. Do
-not change the status to `CLEARED` until the owner has documented evidence for
-each item and the product has passed the real 24GB Apple Silicon validation.
+This is a release gate, not legal advice. The current status must remain `NOT CLEARED` until the owner records evidence and obtains any review required for the intended market.
 
-Unresolved items:
+Before selling or promoting commercial use, document at least:
 
-- Verify exact identity, source, and license for the downloaded face-parser
-  checkpoint and ResNet-18 checkpoint.
-- Replace the non-commercial InsightFace detector weights in the LivePortrait
-  route with a commercially licensed alternative, or remove that route from
-  the commercial product.
-- Lock and review all Python dependencies for both model sidecars.
-- Confirm rights for every face/avatar/driving input and keep personal media
-  out of the public repository and sale package.
-- Have counsel review the purchaser license and sales terms.
-- Verify model downloads, TTS, face motion/lip sync, and output quality on a
-  clean 24GB Apple Silicon Mac.
+- Current applicable terms for ImageGen/OpenAI, Muse, Codex, Chrome/computer-use, and the separately installed FFmpeg build.
+- Rights and consent for each reference image, character likeness, voice, narration, and other input used in examples or demonstrations.
+- Applicable provider rules for commercial outputs, retention, export, and use of generated media.
+- Counsel's review of the purchaser license and sales flow for the seller's and buyers' jurisdictions.
+- A real end-to-end review of the current workflow, package contents, and output quality; do not treat the local FFmpeg smoke test as a provider/model evaluation.
+
+Do not claim that third-party services, generated outputs, or this product are commercially cleared merely because the repository is public or a local mux test passes.

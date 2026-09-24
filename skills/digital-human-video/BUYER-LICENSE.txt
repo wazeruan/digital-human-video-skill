@@ -1,11 +1,11 @@
-DIGITAL HUMAN LOCAL MVP — PURCHASER LICENSE
+DIGITAL HUMAN VIDEO SKILL — PURCHASER LICENSE
 Version 1.0 — 2026-09-24
 Rights holder: wazeruan
 
 This license applies only to the project source and the digital-human-video
-skill supplied with a purchase. It does not apply to third-party components,
-model weights, sample media, images or voices supplied by the purchaser, or
-generated outputs; those remain subject to their own rights and terms.
+skill supplied with a purchase. It does not apply to third-party services or
+tools, sample media, images or voices supplied by the purchaser, or generated
+outputs; those remain subject to their own rights and terms.
 
 After purchase, the purchaser named in the purchase record may install, run,
 and privately modify the project source and skill for the purchaser's own use.

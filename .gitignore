@@ -1,24 +1,16 @@
 # Python-generated files
 __pycache__/
 *.py[oc]
-build/
-dist/
-wheels/
-*.egg-info
 .pytest_cache/
 
 # Virtual environments
 .venv
 .env
 .cache/
+outputs/
 data/
 data-*/
-outputs/
 vendor/
 *.log
 .DS_Store
-examples/*.png
-examples/*.jpg
-examples/*.jpeg
-examples/*.webp
-examples/*.gif
+dist/

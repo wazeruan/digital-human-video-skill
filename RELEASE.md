@@ -1,80 +1,26 @@
-# Release status and checklist
+# Release checklist
 
-## Current status
+This project distributes a Muse-through-browser Codex skill. The latest tree has no local inference app, model downloads, or sample media. The publishing cleanup is a fast-forward commit: older public Git history is intentionally preserved and may still contain files from the former local implementation. In particular, reachable history currently contains `examples/avatar.png`, `examples/avatar-cartoon.png`, and `examples/avatar-fullbody.png` without allowlisted provenance receipts. `scripts/release_audit.py --release` will block a paid package on those historical images. Do not bypass that check or add them to an allowlist without verified provenance. Removing them from public history would require a separately approved history rewrite.
 
-This checkout is a locally tested MVP source candidate, not a fully validated
-real-model release or commercially cleared product. The root `LICENSE` and
-skill buyer-license draft identify `wazeruan`; the buyer terms allow private
-modification and prohibit sharing, resale, and redistribution. The terms still
-need legal review before sale. A public source preview must use a sanitized,
-fresh-history snapshot; the original local history stays untouched.
+## Public source update
 
-A development checkout used to prepare publication may contain generated or
-personal avatar assets in its current tree or older commits. Removing images
-from the latest tree is not enough: a public push could still publish prior
-versions. Publish only from a clean-history snapshot that excludes all local
-face/avatar images and media. The release audit rejects image and model/media
-assets in both the current tree and reachable history.
+1. Review the exact staged changes and ensure no user media, credentials, model binaries, or generated outputs are included.
+2. Run `python3 scripts/release_audit.py`, `bash -n scripts/*.sh`, and `./scripts/smoke_ffmpeg.sh` on a machine with FFmpeg.
+3. Build and inspect the skill archive:
 
-## Before making a public GitHub repository
+   ```bash
+   ./scripts/package_skill.sh /tmp/digital-human-video.zip
+   unzip -t /tmp/digital-human-video.zip
+   unzip -l /tmp/digital-human-video.zip
+   ```
 
-1. Keep the project-specific proprietary notice and the separate purchaser
-   terms at `skills/digital-human-video/BUYER-LICENSE.txt` with the paid skill.
-   A public repository does not grant non-buyers rights to use, modify, or resell
-   the software or skill.
-2. Create a clean publication snapshot/history containing only reviewed files.
-   Keep the existing local history intact; do not force-push or rewrite it as a
-   shortcut. Exclude all local face/avatar images, personal media, credentials,
-   generated videos, local databases, and model weights.
-3. Review every media asset intentionally included in the candidate snapshot
-   and its provenance records, all third-party notices, patches, pinned model
-   revisions, dependency lock files, and the exact files in the skill archive.
-   The initial source-only snapshot should contain no example media. Do not
-   infer a license for an asset from its presence in a development checkout.
-4. Run `uv run --frozen python scripts/release_audit.py --release` from a clean
-   reviewed publication checkout. Run a dedicated secret/history scanner before
-   pushing; the local audit checks risky historical filenames but does not
-   replace a complete secret scan.
-5. Publish only after verifying the resulting GitHub repository visibility and
-   contents. Public visibility is not an open-source grant; keep the repository
-   and buyer license terms consistent.
+4. Check the GitHub Actions package and smoke checks. Publish only a fast-forward update to the intended repository and verify its name, visibility, default branch, and package contents.
 
-## Before selling or distributing the skill
+## Paid distribution
 
-1. Have counsel review the buyer-license draft, and ensure the same terms appear
-   in the checkout/download flow and package.
-2. Do not bundle model weights or customer/creator face, voice, or motion assets.
-   Buyers must obtain rights to their own inputs and comply with each model's
-   terms.
-3. The included LivePortrait path downloads InsightFace detector weights
-   designated for non-commercial research. Do not advertise that path as
-   commercially cleared. Replace that detector with a commercially licensed
-   alternative or remove/disable LivePortrait from commercial instructions.
-4. Resolve exact source/license provenance for the face-parser and ResNet-18
-   checkpoints, and lock every dependency in the MuseTalk and LivePortrait
-   sidecar environments. `THIRD_PARTY_NOTICES.md` is an inventory, not legal
-   advice or a complete clearance certificate.
-5. Verify installation and render quality on a clean 24GB Apple Silicon Mac.
-   CI tests fake media flows on Linux and a small Apple Silicon runner; it does
-   not validate the full-size memory budget, model downloads, real TTS, lip
-   sync, LivePortrait, or final video quality.
+1. Keep `skills/digital-human-video/BUYER-LICENSE.txt` in every package. It is a draft and must be reviewed by counsel before taking payment.
+2. Complete `COMMERCIAL_CLEARANCE.md` with evidence for provider terms, inputs and consent, model/service outputs, and the intended sales market.
+3. Do not bundle source images, audio, generated videos, model weights, provider code, or FFmpeg binaries unless their rights and license obligations are separately cleared.
+4. Only then may an owner deliberately update the clearance status and run the manual/tagged commercial release gate: `python3 scripts/release_audit.py --release --commercial`.
 
-The tagged/manual paid-release workflow additionally requires
-`scripts/release_audit.py --release --commercial`. It will not package a paid
-candidate unless an owner-reviewed `COMMERCIAL_CLEARANCE.md` starts with
-`Status: CLEARED` and the buyer license is no longer marked as a draft.
-
-## Local checks
-
-```bash
-uv sync --frozen --extra test
-uv run --frozen pytest
-uv run --frozen python scripts/release_audit.py
-scripts/package_skill.sh /tmp/digital-human-video.zip
-unzip -t /tmp/digital-human-video.zip
-```
-
-The service is a local single-user preview, not a public SaaS. Keep the API and
-model sidecar bound to `127.0.0.1`; adding public access requires authentication,
-quotas, tenant isolation, retention/deletion controls, and a separate security
-review.
+The FFmpeg smoke flow only confirms that a local test clip can be muxed; it does not establish that Muse is reachable, that provider terms permit a use, or that any generated result meets quality expectations.
