@@ -17,7 +17,7 @@
 
 ## Codex skill
 
-仓库内含 `skills/digital-human-video`，支持按用户要求选择角色风格、画幅、时长、动作、语气、背景与交付格式；需要透明叠加时可走“透明角色图 → 在 Chrome/Muse 分别生成静音视频与语音 → 用 FFmpeg 合并并检查 alpha”的幻灯片流程，也保留本地 pipeline。浏览器模式会把选定头像与文本发送给外部服务，不属于本地 FastAPI 流程；生成媒体、隐私、商用和导出权利受服务商条款约束。安装至本机 Codex skills 目录：
+仓库内含 digital-human-video skill，支持按用户要求选择角色风格、画幅、语气、背景与交付格式。Muse 流程按口播文案和语速估算时长，分别提交静音视频与语音任务，批量完成 Chrome 操作并同步检查状态，最后按实测语音时长合成和质检；透明幻灯片流程也在其中，并保留本地 pipeline。浏览器模式会把选定头像与文本发送给外部服务，不属于本地 FastAPI 流程；生成媒体、隐私、商用和导出权利受服务商条款约束。安装至本机 Codex skills 目录：
 
 ```bash
 ./scripts/install_skill.sh
