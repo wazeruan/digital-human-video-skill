@@ -1,6 +1,6 @@
 # Security and privacy boundary
 
-This repository packages a Codex skill that uses ImageGen and an external Muse service through the user's browser. It contains no local model server, API service, credentials, or bundled media.
+This repository packages a Codex skill that uses ImageGen and an external Muse service through the user's browser; it can also use an already-installed local Qwen3-TTS runtime when selected. It contains no bundled model weights, local inference server, API service, credentials, or media.
 
 - Only submit the image and narration selected for this run. Do not upload unrelated portraits, recordings, credentials, project files, or chat history.
 - Use only images, voices, and reference material that you own or are authorized to use. Get consent for identifiable people; do not use the workflow for deceptive impersonation, fraud, or non-consensual sexual content.
