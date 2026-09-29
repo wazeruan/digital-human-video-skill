@@ -4,6 +4,12 @@
 
 **本仓库不附带 TTS 模型权重、推理服务、视频推理或 FastAPI 服务。** 本地 Qwen3-TTS 路线依赖用户已安装的兼容运行环境；skill 不会自行下载模型、安装依赖或切换到 Muse 语音。视频生成仍由 Muse 外部服务完成。FFmpeg 只用于检查媒体、修整静音视频并合并音视频。本次通过普通提交清除旧本地视频实现，不改写公开历史；较早的提交仍可能包含旧源码和头像样例。
 
+## English
+
+This repository packages a Codex skill for creating speaking-avatar videos. It pairs ImageGen character art with silent video generated through Muse. Narration can use an already-configured local Qwen3-TTS runtime or Muse's audio route; when local Qwen3-TTS is selected, audio synthesis can run in parallel with Muse video rendering. FFmpeg composes and checks the final deliverables.
+
+Local Qwen3-TTS is optional and must be installed separately. This repository does not bundle model weights, install or start local inference services, or provide local video generation. Video generation remains Muse-based. See the sections below for setup, workflow, privacy, and release details.
+
 ## 需要准备
 
 - Codex 桌面端，并可使用 ImageGen 和 computer-use。
